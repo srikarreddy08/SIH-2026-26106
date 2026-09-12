@@ -1,0 +1,1648 @@
+Delivered-To: bhavana.reddyy07@gmail.com
+Received: by 2002:a05:7413:481:b0:1ee:b93d:19b4 with SMTP id mp1csp2211438rdb;
+        Thu, 10 Sep 2026 07:14:24 -0700 (PDT)
+X-Received: by 2002:a05:620a:8105:b0:939:6de8:43e2 with SMTP id af79cd13be357-939804cadaamr3735835385a.47.1789049664098;
+        Thu, 10 Sep 2026 07:14:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789049664; cv=none;
+        d=google.com; s=arc-20260327;
+        b=i5f7NDL7BrIhegAA6Hn1s6FzwRRnNjlyz2Ro5KtUzmQZq0shmVKygPpeu0cXi64Taj
+         bAlvrolZo1aJcuRjWcoyp9aq+LTmLvhHUtfrfpyBWS7+zInwcBbv0WiCfzBU4QSlq1NW
+         Kju/e7rmti6dboB3OD9X4hUP20X0pIk9LOLvqqwQKZ0rxSMRDB3TPfkn4rtjx9/waDg4
+         iEdd6olw1kxmgdT+/zC/TjdnZMtNyAZ2c8WLwYk12k34enNCYwsV2Q+p29EEfQQx2GMK
+         l8czVv+sm1/9AEMca/cwphOlCgbM7KNgIISO2Im1goprMuwk1Q3xf+SLRcQ3Hiu1BQFc
+         arHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=feedback-id:list-unsubscribe:list-unsubscribe-post:mime-version
+         :subject:message-id:to:reply-to:from:date:dkim-signature
+         :dkim-signature;
+        bh=I0ls3KMOOfs3B3XM61y6DwabBMhLseOu0h+lku3m4+w=;
+        fh=Zw6OZpDSIY/G6EWKMXaPJVwu7TZG7yE/SXbffSdnSjM=;
+        b=LySw1a4Vi6zlr8FoGbLmHUlmgjxTNdkMZZ3w+jTwZX0laDbJv1MYtCryEi7Zv7aMhm
+         Ys5bH4HOfvP23Tj+7q2sSM1uuqeYT5Iyr+2EGHONPMFmcLskf1hxr2U3N4/rYa6ZGf1k
+         bvWXel28rE8NhXP/jPCpnHRG6gEWmg/QpGX/lkO9vuJ+jMGw03eYFXCIiCSoZHN52R1Y
+         PjAvyF8W+6ZNc23aRHnMAezscAvr/rsxjgWX4dXToWVAZvmdvgs1xo3DwSo0Pz0E8+KC
+         UTjX8qx8Cb0uxzB4PWf6D1F4GI1SZvkGEn+Lt8mLFTrJH8kKBUFaStOZ/l6KX+j699JE
+         1AMg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@trx.styleunion.in header.s=3ztouc5ts2je4tyknzmo75k5ohrqr2yv header.b=uE6VQfpp;
+       dkim=pass header.i=@amazonses.com header.s=kra23psoka5qyyh6gdejiiuof3nluwuz header.b=IxYjndSN;
+       spf=pass (google.com: domain of 010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com designates 54.240.96.127 as permitted sender) smtp.mailfrom=010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=trx.styleunion.in
+Return-Path: <010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com>
+Received: from a96-127.smtp-out.us-east-2.amazonses.com (a96-127.smtp-out.us-east-2.amazonses.com. [54.240.96.127])
+        by mx.google.com with ESMTPS id af79cd13be357-939d5e3cb74si344856685a.142.2026.09.10.07.14.23
+        for <bhavana.reddyy07@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 07:14:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com designates 54.240.96.127 as permitted sender) client-ip=54.240.96.127;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@trx.styleunion.in header.s=3ztouc5ts2je4tyknzmo75k5ohrqr2yv header.b=uE6VQfpp;
+       dkim=pass header.i=@amazonses.com header.s=kra23psoka5qyyh6gdejiiuof3nluwuz header.b=IxYjndSN;
+       spf=pass (google.com: domain of 010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com designates 54.240.96.127 as permitted sender) smtp.mailfrom=010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=trx.styleunion.in
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=3ztouc5ts2je4tyknzmo75k5ohrqr2yv; d=trx.styleunion.in;
+	t=1789049663;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe-Post:List-Unsubscribe;
+	bh=tmRS7RPLh2vsqdGryvZyZ4N/N8DpS++LMNWd3nNFZMg=;
+	b=uE6VQfppclxlm1YwZKgJaqwkefZ0WxC7+QflIR+XQIkgzQ8DdUAvAOUZeGmj2XUG
+	vaGtO4P4OMAMzCc4rkOIMZfFzjbLzxLESlrJyTFcmacg5LR0r98ZhH2Qurefj+6ipFq
+	CSPpOTuP17Sv0KsijYyNKxkD1xKFdGGizSIEP4ldBuiZuzGCU40GWqjwLJykaoSHvVr
+	hI8rDhJgQ4a6fbK4P6QlaGNU+xvSRud+bRNUUN5bhOJoK0rXFX0zMEaKhJMoAijGYBd
+	4hbV47smGiZHzBtQxSUPYvkCSg5C+/SQHtVLmkHAypzkC6DqVw0k/SwCgu9/FLohjAA
+	9ajpZR4SCw==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=kra23psoka5qyyh6gdejiiuof3nluwuz; d=amazonses.com; t=1789049663;
+	h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe-Post:List-Unsubscribe:Feedback-ID;
+	bh=tmRS7RPLh2vsqdGryvZyZ4N/N8DpS++LMNWd3nNFZMg=;
+	b=IxYjndSNyigBo3A3EDtS5komqK03HXVGcLlH3wPq4iLEJthREjAAeZOMMgcqJoiA
+	Ly9uGnGfnWquKsO3iw+Wv0/RN1HHs3WX9qI+w5OLZZ+RUuA5VUEj8MdylDLbKN8sOZ6
+	qzAkLlxLp070hXeZgHwmp0UecPT9YDV5e+bAsYvg=
+Date: Thu, 10 Sep 2026 14:14:23 +0000
+From: Style Union <no-reply@trx.styleunion.in>
+Reply-To: Sharewithus@styleunion.in
+To: bhavana.reddyy07@gmail.com
+Message-ID: <010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000@us-east-2.amazonses.com>
+Subject: Thank you for shopping at Style Union!
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_335378_1798289512.1789049663399"
+X-OPT-CAMPAIGN-REPORT-ID: 20538980
+X-OPT-SOURCE: DigitalReceipt
+X-OPT-USERID: 1207
+X-OPT-CAMPAIGN-ID: 0
+X-OPT-CONTACTID: 0
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <https://stylun.p3.optretail.app/api/service/unsubscribe?hash=ZW1haWxJZD1iaGF2YW5hLnJlZGR5eTA3QGdtYWlsLmNvbSZjYW1wSWQ9MCZjcklkPTIwNTM4OTgwJnVzZXJJZD0xMjA3JmNJZD0w>
+Feedback-ID: ::1.us-east-2.uxyqNTXaIt7ECCNCImVxEQ9Y2zeSTUHxL+dsiaPGqP8=:AmazonSES
+X-SES-Outgoing: 2026.09.10-54.240.96.127
+
+------=_Part_335378_1798289512.1789049663399
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+
+------=_Part_335378_1798289512.1789049663399
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www=
+.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns=3D"http://www.w=
+3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:=
+schemas-microsoft-com:office:office"><head>
+ <title></title>
+ <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+ <meta name=3D"viewport" content=3D"width=3Ddevice-width">=20
+ <!--[if mso]>
+<xml><w:WordDocument xmlns:w=3D"urn:schemas-microsoft-com:office:word"><w:D=
+ontUseAdvancedTypographyReadingMail/></w:WordDocument>
+<o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/=
+></o:OfficeDocumentSettings></xml>
+<![endif]-->
+ <style>
+*{box-sizing:border-box}body{margin:0;padding:0}a[x-apple-data-detectors]{c=
+olor:inherit!important;text-decoration:inherit!important}#MessageViewBody a=
+{color:inherit;text-decoration:none}p{line-height:inherit}.desktop_hide,.de=
+sktop_hide table{mso-hide:all;display:none;max-height:0;overflow:hidden}.im=
+age_block img+div{display:none}sub,sup{font-size:75%;line-height:0} @media =
+(max-width:520px){.row-content{width:100%!important}.stack .column{width:10=
+0%;display:block}.mobile_hide{min-height:0;max-height:0;max-width:0;display=
+:none;overflow:hidden;font-size:0}.desktop_hide,.desktop_hide table{display=
+:table!important;max-height:none!important}.social_block .social-table{disp=
+lay:inline-block!important}}
+</style>
+ <!--[if mso ]><style>sup, sub { font-size: 100% !important; } sup { mso-te=
+xt-raise:10% } sub { mso-text-raise:-10% }</style> <![endif]-->
+</head><body class=3D"body" style=3D"margin:0;padding:0;-webkit-text-size-a=
+djust:none;text-size-adjust:none;background-color:#fff">
+ <div align=3D"left" style=3D"font-size:=3D8pt;font-family:Tahoma,Arial,Hel=
+vetica,sans-serif;color:#000000;">
+  <font style=3D"font-family: Tahoma,arial; font-size: 8pt; color: #000000;=
+">To Download as a PDF <a href=3D"https://j44kplkl.r.us-east-2.awstrack.me/=
+L0/https:%2F%2Ft.ocmails.app%2Fsubscriber%2FupdateDigitalReport.mqrm%3Frequ=
+estedAction=3Dpdf%26sentId=3Du%252BZg6J1Hr4s0MdAhmpus5w%253D%253D/1/010f01a=
+08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000/7vnIXJ8D4nya2TpK3BDIK=
+c7QPfE=3D258"> click here</a></font>
+ </div>
+ <br>=20
+ <table class=3D"nl-container" width=3D"100%" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-t=
+able-rspace:0;background-color:#fff">=20
+  <tbody>=20
+   <tr>=20
+    <td>=20
+     <table class=3D"row row-1" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-bottom:5px;padding-t=
+op:5px">=20
+                 <table class=3D"image_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad" style=3D"width:100%" align=3D"center"=
+>=20
+                     <div style=3D"max-width:200px">=20
+                      <img src=3D"https://d15k2d11r6t6rl.cloudfront.net/pub=
+lic/users/Integrators/268870de-d888-4dae-8edd-cb5b5c07a4ed/STYLUN__org__STY=
+LUN/Logo/Style%20Union%20Logo%20600x200%20px.jpg" style=3D"display:block;he=
+ight:auto;border:0;width:100%" width=3D"200" alt=3D"" title=3D"" height=3D"=
+auto">=20
+                     </div></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-2" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-bottom:5px;padding-t=
+op:5px">=20
+                 <table class=3D"heading_block block-1" width=3D"100%" bord=
+er=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D=
+"mso-table-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad" style=3D"width:100%" align=3D"center"=
+><h2 style=3D"margin:0;color:#555;direction:ltr;font-family:Georgia,Times,'=
+Times New Roman',serif;font-size:18px;font-weight:400;letter-spacing:normal=
+;line-height:1.2;text-align:center;margin-top:0;margin-bottom:0;mso-line-he=
+ight-alt:22px"><sup>Thank you for shopping at <strong>Style Union.</strong>=
+</sup></h2></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-3" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-bottom:5px;padding-t=
+op:5px">=20
+                 <table class=3D"text_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad">=20
+                     <div style=3D"font-family:'Times New Roman',Georgia,se=
+rif">=20
+                      <div class style=3D"font-size:12px;font-family:TimesN=
+ewRoman,'Times New Roman',Times,Beskerville,Georgia,serif;mso-line-height-a=
+lt:14.399999999999999px;color:#555;line-height:1.2">=20
+                       <p style=3D"margin:0;font-size:11px;text-align:cente=
+r;mso-line-height-alt:13.2px"> <span style=3D"word-break: break-word; font-=
+size: 12px;">We put our customers at the heart of everything we do. Our pas=
+sion drives us to help you build a wardrobe that suits your individual styl=
+e. The goal is to make sure you feel great in what you wear.</span></p>=20
+                      </div>=20
+                     </div></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table>=20
+                 <table class=3D"heading_block block-2" width=3D"100%" bord=
+er=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D=
+"mso-table-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad" style=3D"width:100%;padding-top:5px" =
+align=3D"center"><h2 style=3D"margin:0;color:#000;direction:ltr;font-family=
+:Arial,Helvetica Neue,Helvetica,sans-serif;font-size:18px;font-weight:400;l=
+etter-spacing:normal;line-height:1.2;text-align:center;margin-top:0;margin-=
+bottom:0;mso-line-height-alt:22px"><strong><sup>E-Receipt</sup></strong></h=
+2></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-4" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff;background-size:auto"=
+>=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content stack" align=3D"center" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;background-color:#fff;background-size:auto;col=
+or:#000;width:500px;margin:0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"10" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; color: #000000; font-size: 1=
+3px;"><strong>Nexon Omniverse Ltd</strong></span></p>=20
+                   <p style=3D"margin:0;mso-line-height-alt:15.6px"><span s=
+tyle=3D"word-break: break-word; color: #000000;"><strong>SU-Warangal NIT&nb=
+sp;</strong></span></p>=20
+                   <p style=3D"margin:0;mso-line-height-alt:15.6px"> <span =
+style=3D"word-break: break-word; color: #000000;">Survey No 352, At Kazipet=
+ Beside NIT Hyderabad Road Hanumakonda</span></p>=20
+                   <p style=3D"margin:0;mso-line-height-alt:15.6px"><span s=
+tyle=3D"word-break: break-word; color: #000000;">Warangal</span></p>=20
+                   <p style=3D"margin:0;mso-line-height-alt:16.8px">&nbsp;<=
+/p>=20
+                   <p style=3D"margin:0;mso-line-height-alt:15.6px"> <span =
+style=3D"word-break: break-word; color: #000000;">Region: TELANGANA</span><=
+/p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; color: #000000;"><span style=
+=3D"word-break: break-word; font-size: 13px;">GSTIN No: 36AAQCS3643G1Z2</sp=
+an></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-5" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"divider_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad" align=3D"center">=20
+                 <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" ro=
+le=3D"presentation" width=3D"100%" style=3D"mso-table-lspace:0;mso-table-rs=
+pace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"divider_inner" style=3D"font-size:1px;line=
+-height:1px;border-top:1px solid #bbb"><span style=3D"word-break: break-wor=
+d;">=E2=80=8A</span></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-6" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:14px;mso-line-height-alt:=
+16.8px"><span style=3D"word-break: break-word; color: #000000; font-size: 1=
+3px;"><strong>Receipt# :&nbsp; </strong>CM-9495-09/26D75</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-2" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:14px;text-align:left;mso-=
+line-height-alt:16.8px"><span style=3D"word-break: break-word; color: #0000=
+00; font-size: 13px;"><strong>Date : </strong>10/09/2026 19:44:19</span></p=
+>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-7" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:14px;mso-line-height-alt:=
+16.8px"><span style=3D"word-break: break-word; color: #000000; font-size: 1=
+3px;"><strong>Customer Name: </strong>S Bhavana</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-2" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;text-align:left;font-f=
+amily:Arial,Helvetica Neue,Helvetica,sans-serif;mso-line-height-alt:14.3999=
+99999999999px;color:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;mso-line-height-alt:14.399999999999=
+999px"><span style=3D"word-break: break-word; color: #000000;"><strong>Mobi=
+le No: </strong>9347598380</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-8" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;mso-line-height-alt:16.8px"><span s=
+tyle=3D"word-break: break-word; color: #000000; font-size: 13px;"><strong>C=
+ashier Name:</strong>&nbsp; GUDEM SHIVA</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-9" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-top:5px">=20
+                 <table class=3D"html_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad">=20
+                     <div style=3D"font-family:Arial,Helvetica Neue,Helveti=
+ca,sans-serif;text-align:center" align=3D"center">=20
+                      <table border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" style=3D"table-layout: fixed; font-family:arial; font-size:12px; color:#=
+000000;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td align=3D"left" valign=3D"top"> </td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%" bgc=
+olor=3D"#000000">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"28%" valign=3D"top">Style Code/Color/Size</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"30%" valign=3D"top">Description</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"12%" valign=3D"top">QTY</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"15%" valign=3D"top">Unit.Price</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"15%" valign=3D"top">Amount</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%" bgc=
+olor=3D"#000000">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"22%" valign=3D"top">BarCode</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"20%" valign=3D"top">Disc%</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"28%" valign=3D"top">HSNCcode</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"15%" valign=3D"top">TaxPrc</td>=20
+                         <td bgcolor=3D"transparent" style=3D"text-align:ce=
+nter; font-family:arial; color:#ffffff; font-weight:bold; font-size:12px;" =
+width=3D"15%" valign=3D"top">TaxAmt</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:11px; padding-left:5px;" width=3D"32%" valign=3D"to=
+p">WTO00231/GREY/S</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px; padding-left:5px;" width=3D"32%" valign=3D"=
+top">WOMENS TOPWEAR</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"12%" valign=3D"top">1</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"12%" valign=3D"top">699.00</td>=
+=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"12%" valign=3D"top">649.00</td>=
+=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:11px; padding-left:5px;" width=3D"28%" valign=3D"to=
+p">8909404263078</td>=20
+                         <td style=3D"text-align:center color:#333333; font=
+-family:arial; font-size:11px;" width=3D"15%" valign=3D"top">50.00</td>=20
+                         <td style=3D"text-align:center color:#333333; font=
+-family:arial; font-size:11px;" width=3D"27%" valign=3D"top">61062010</td>=
+=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"15%" valign=3D"top">5.00</td>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:11px;" width=3D"15%" valign=3D"top">30.90</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <hr style=3D"border-top: dotted 1px;">=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:11px; padding-left:5px;" width=3D"32%" valign=3D"to=
+p">CARRY BAG-BIG/white/Black/Red/SIZE 8.50x4x11.25</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px; padding-left:5px;" width=3D"32%" valign=3D"=
+top">CARRY BAGS</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"12%" valign=3D"top">1</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"12%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"12%" valign=3D"top">0.00</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:11px; padding-left:5px;" width=3D"28%" valign=3D"to=
+p">8909404084598</td>=20
+                         <td style=3D"text-align:center color:#333333; font=
+-family:arial; font-size:11px;" width=3D"15%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center color:#333333; font=
+-family:arial; font-size:11px;" width=3D"27%" valign=3D"top">48194000</td>=
+=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:11px;" width=3D"15%" valign=3D"top">18.00</td>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:11px;" width=3D"15%" valign=3D"top">0.00</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <hr style=3D"border-top: dotted 1px;">=20
+                      <table>=20
+                       <tbody>=20
+                        <tr>=20
+                         <td colspan=3D"0">=20
+                          <div class=3D"block-grid " style=3D"Margin: 0 aut=
+o; min-width: 500px; max-width: fit-content; width:inherit; overflow-wrap: =
+break-word; word-wrap: break-word; word-break: break-word; background-color=
+: transparent;;">=20
+                           <table width=3D"100%" style=3D"color:#333333; fo=
+nt-family:arial; font-size:14px;" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"7">=20
+                            <tbody>=20
+                             <tr>=20
+                              <td width=3D"66%"> </td>=20
+                              <td width=3D"20%" style=3D"text-align:left; c=
+olor:#333333; font-family:arial; font-size:14px;"></td>=20
+                              <td width=3D"14%" style=3D"text-align:right; =
+color:#333333; font-family:arial; font-size:14px;padding-right: 10px;"></td=
+>=20
+                             </tr>=20
+                            </tbody>=20
+                           </table>=20
+                          </div></td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                     </div></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-10" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"10" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;mso-line-height-alt:=
+14.399999999999999px">&nbsp;</p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-2" width=3D"25%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; font-size: 13px; color: #000=
+000;"><strong>Sub Total:</strong></span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; font-size: 13px; color: #000=
+000;"><strong>Tax:</strong></span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; font-size: 13px; color: #000=
+000;"><strong>Discount:</strong></span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"> <span style=3D"word-break: break-word; font-size: 13px; color: #00=
+0000;"><strong>Receipt Total:</strong></span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; color: #000000;">&nbsp;</spa=
+n></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-3" width=3D"25%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;text-align:right;font-size:13px;mso=
+-line-height-alt:15.6px"><span style=3D"word-break: break-word; color: #000=
+000; font-size: 13px;">668.10</span></p>=20
+                   <p style=3D"margin:0;text-align:right;font-size:13px;mso=
+-line-height-alt:15.6px"><span style=3D"word-break: break-word; color: #000=
+000; font-size: 13px;">30.90</span></p>=20
+                   <p style=3D"margin:0;text-align:right;font-size:13px;mso=
+-line-height-alt:15.6px"><span style=3D"word-break: break-word; color: #000=
+000; font-size: 13px;">50.00</span></p>=20
+                   <p style=3D"margin:0;text-align:right;font-size:13px;mso=
+-line-height-alt:15.6px"> <span style=3D"word-break: break-word; color: #00=
+0000; font-size: 13px;">649.00</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-11" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-bottom:5px">=20
+                 <table class=3D"html_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad">=20
+                     <div style=3D"font-family:Arial,Helvetica Neue,Helveti=
+ca,sans-serif;text-align:center" align=3D"center">=20
+                      <table border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" style=3D"table-layout: fixed; font-family:arial; font-size:12px; color:#=
+000000;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td align=3D"left" valign=3D"top"> </td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <div class=3D"block-grid " style=3D"Margin: 0 auto; m=
+in-width: 320px; max-width: inherit; overflow-wrap: break-word; word-wrap: =
+break-word; word-break: break-word; background-color: transparent;text-alig=
+n:left;padding:10px;">=20
+                       <table border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" style=3D"table-layout: fixed; font-family:arial; font-weight:bold; font=
+-size:14px; color:#000000;" width=3D"100%">=20
+                        <tbody>=20
+                         <tr>=20
+                          <td align=3D"left" valign=3D"top" style=3D"font-f=
+amily:arial; font-size:13px; color:#333;">Payment Method </td>=20
+                         </tr>=20
+                        </tbody>=20
+                       </table>=20
+                       <table border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" style=3D"table-layout: fixed; font-family:arial; font-size:13px; color:=
+#333;" width=3D"100%">=20
+                        <tbody>=20
+                         <tr>=20
+                          <td align=3D"left" valign=3D"top" style=3D"font-f=
+amily:arial; font-size:13px; color:#333;">EDC : 649.00 </td>=20
+                         </tr>=20
+                        </tbody>=20
+                       </table>=20
+                      </div>=20
+                     </div></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-12" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad" style=3D"padding-top:10px;padding-left:10=
+px">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:14px;mso-line-height-alt:=
+16.8px"> <span style=3D"word-break: break-word; color: #000000; font-size: =
+13px;">GST Summary</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-13" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"divider_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad" align=3D"center">=20
+                 <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" ro=
+le=3D"presentation" width=3D"100%" style=3D"mso-table-lspace:0;mso-table-rs=
+pace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"divider_inner" style=3D"font-size:1px;line=
+-height:1px;border-top:1px dotted #000"><span style=3D"word-break: break-wo=
+rd;">=E2=80=8A</span></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-14" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"16.666666666666668%" sty=
+le=3D"mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left=
+;background-color:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;text-align:center;ms=
+o-line-height-alt:14.399999999999999px"> <span style=3D"word-break: break-w=
+ord; color: #000000;"><strong>Desc</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-2" width=3D"16.666666666666668%" sty=
+le=3D"mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left=
+;background-color:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;text-align:center;ms=
+o-line-height-alt:14.399999999999999px"><span style=3D"word-break: break-wo=
+rd; color: #000000;"><strong>Taxable</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-3" width=3D"16.666666666666668%" sty=
+le=3D"mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left=
+;background-color:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;text-align:center;ms=
+o-line-height-alt:14.399999999999999px"><span style=3D"word-break: break-wo=
+rd; color: #000000;"><strong>CGST</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-4" width=3D"16.666666666666668%" sty=
+le=3D"mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left=
+;background-color:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;text-align:center;ms=
+o-line-height-alt:14.399999999999999px"><span style=3D"word-break: break-wo=
+rd; color: #000000;"><strong>IGST</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-5" width=3D"16.666666666666668%" sty=
+le=3D"mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left=
+;background-color:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;text-align:center;ms=
+o-line-height-alt:14.399999999999999px"><span style=3D"word-break: break-wo=
+rd; color: #000000;"><strong>SGST</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-6" width=3D"16.666666666666668%" sty=
+le=3D"mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left=
+;background-color:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:12px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;co=
+lor:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;font-size:12px;text-align:center;ms=
+o-line-height-alt:14.399999999999999px"><span style=3D"word-break: break-wo=
+rd; color: #000000;"><strong>CESS</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-15" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-bottom:5px;padding-t=
+op:5px">=20
+                 <table class=3D"html_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad">=20
+                     <div style=3D"font-family:Arial,Helvetica Neue,Helveti=
+ca,sans-serif;text-align:center" align=3D"center">=20
+                      <table border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" style=3D"table-layout: fixed; font-family:arial; font-size:12px; color:#=
+000000;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td align=3D"left" valign=3D"top"> </td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <div id=3D"##BEGIN GST##"></div>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:12px; padding-left:10px;" width=3D"20%" valign=3D"t=
+op">GST 5%</td>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:12px; padding-left:10px;" width=3D"16%" valign=3D"t=
+op">618.10</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">15.45</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">15.45</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <div id=3D""></div>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:12px; padding-left:10px;" width=3D"20%" valign=3D"t=
+op">GST 18%</td>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:12px; padding-left:10px;" width=3D"16%" valign=3D"t=
+op">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <div id=3D"##END GST##"></div>=20
+                      <table border=3D"0" cellpadding=3D"3" cellspacing=3D"=
+2" style=3D"word-break:break-all; word-wrap:break-word;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td>Total:</td>=20
+                         <td style=3D"text-align:left; color:#333333; font-=
+family:arial; font-size:12px; padding-left:10px;" width=3D"16%" valign=3D"t=
+op">618.10</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">15.45</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">15.45</td>=20
+                         <td style=3D"text-align:center; color:#333333; fon=
+t-family:arial; font-size:12px;" width=3D"16%" valign=3D"top">0.00</td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                      <table border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" style=3D"table-layout: fixed; font-family:arial; font-size:12px; color:#=
+000000;" width=3D"100%">=20
+                       <tbody>=20
+                        <tr>=20
+                         <td align=3D"left" valign=3D"top"> </td>=20
+                        </tr>=20
+                       </tbody>=20
+                      </table>=20
+                     </div></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-16" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"divider_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad" align=3D"center">=20
+                 <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" ro=
+le=3D"presentation" width=3D"100%" style=3D"mso-table-lspace:0;mso-table-rs=
+pace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"divider_inner" style=3D"font-size:1px;line=
+-height:1px;border-top:1px solid #bbb"><span style=3D"word-break: break-wor=
+d;">=E2=80=8A</span></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-17" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;text-align:center;mso-line-height-alt:16.8p=
+x;color:#555;line-height:1.2">=20
+                   <p style=3D"margin:0;mso-line-height-alt:16.8px"> <span =
+style=3D"word-break: break-word; font-size: 13px; color: #000000;"><strong>=
+<span style=3D"word-break: break-word; font-size: 12px;">TERMS &amp; CONDIT=
+IONS</span></strong></span><span style=3D"word-break: break-word; font-size=
+: 13px; color: #000000;">&nbsp;</span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-18" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"> <span style=3D"word-break: break-word; font-size: 13px;">1) Style =
+Union will be glad to exchange/return any garment within 30 Days of purchas=
+e provided the garment is unused, unaltered, unwashed and is in a reusable =
+condition with original tags-attached, after presenting the original invoic=
+e / e-invoice along with garments.</span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+16.8px">&nbsp;</p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"> <span style=3D"word-break: break-word; font-size: 13px;">2) </span=
+>Redeemed coupons cannot be refunded, reissued, or reapplied against return=
+s or exchanges. Exchanged products will be billed at the prevailing selling=
+ price.</p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+16.8px">&nbsp;</p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"> <span style=3D"word-break: break-word; font-size: 13px;">3) It wil=
+l not be possible to exchange/return Accessories Including but not limited =
+to innerwear, like Undergarments, Lingerie, Socks, Swim Wear, Beauty, Cosme=
+tics &amp; Personal care Products, Fashion, accessories like Watch, Sunglas=
+ses, Fine Jewellery, caps, Handbags, Sling bag, Wallet for Hygiene reasons.=
+</span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+16.8px">&nbsp;</p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; font-size: 13px;">4) Only cr=
+edit Notes will be issued. Cash refunds will not be given. Credit Note Amou=
+nt Will be Net Amount of the merchandise. Credit Note Validity will be 90 d=
+ays from the date of issue. The Credit Notes can be redeemed against purcha=
+se at the offline stores only.</span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+16.8px">&nbsp;</p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"><span style=3D"word-break: break-word; font-size: 13px;">5) We requ=
+est you to please follow all wash care instructions carefully. Please dry c=
+lean all silk and embroidered garments.</span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+16.8px">&nbsp;</p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+15.6px"> <span style=3D"word-break: break-word; font-size: 13px;">6) Your p=
+urchases are guaranteed against all manufacturing defects, as we ensure tha=
+t every product is of highest quality standards. In case there is any defec=
+t that a customer finds in the product, the same needs to be informed to us=
+ within 5 days of purchase by contacting us at sharewithus@styleunion in or=
+ at 7304053032.</span></p>=20
+                   <p style=3D"margin:0;font-size:13px;mso-line-height-alt:=
+16.8px">&nbsp;</p>=20
+                   <p style=3D"margin:0;text-align:center;font-size:13px;ms=
+o-line-height-alt:15.6px"><span style=3D"word-break: break-word; font-size:=
+ 13px; color: #000000;"><strong>Also shop online: <a href=3D"https://j44kpl=
+kl.r.us-east-2.awstrack.me/L0/https:%2F%2Ft.ocmails.app%2Fsubscriber%2Fupda=
+teDigitalReport.mqrm%3FrequestedAction=3Dclick%26sentId=3Du%252BZg6J1Hr4s0M=
+dAhmpus5w%253D%253D%26url=3Dhttps%253A%252F%252Fstyleunion.in/1/010f01a08ba=
+b7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000/1GPpNmyW-6eX7a7pe2S3Xzcd9=
+nk=3D258"  style=3D"text-decoration: underline; color: #0068A5;" rel=3D"noo=
+pener">styleunion.in</a></strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-19" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-col=
+or:#fff;vertical-align:top">=20
+             <table class=3D"divider_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"5" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace:0;mso-table-rspace:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad" align=3D"center">=20
+                 <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" ro=
+le=3D"presentation" width=3D"100%" style=3D"mso-table-lspace:0;mso-table-rs=
+pace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"divider_inner" style=3D"font-size:1px;line=
+-height:1px;border-top:1px solid #bbb"><span style=3D"word-break: break-wor=
+d;">=E2=80=8A</span></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-20" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;border-radius:0;color:#000;width:500px;margin:0 auto=
+" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"100%" style=3D"mso-table=
+-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align=
+:top">=20
+             <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace:0;mso-table-rspace=
+:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"col-pad" style=3D"padding-bottom:5px">=20
+                 <table class=3D"paragraph_block block-1" width=3D"100%" bo=
+rder=3D"0" cellpadding=3D"10" cellspacing=3D"0" role=3D"presentation" style=
+=3D"mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td class=3D"pad">=20
+                     <div style=3D"color:#000;direction:ltr;font-family:Ari=
+al,Helvetica Neue,Helvetica,sans-serif;font-size:14px;font-weight:400;lette=
+r-spacing:0;line-height:1.5;text-align:center;mso-line-height-alt:21px">=20
+                      <p style=3D"margin:0;margin-bottom:0"><u><strong>Cont=
+act us:</strong></u></p>=20
+                      <p style=3D"margin:0;margin-bottom:0"> <strong>Phone =
+no:</strong> +91 7304053032<br><strong>Email:</strong> sharewithus@styleuni=
+on.in</p>=20
+                      <p style=3D"margin:0">(<strong>Operational Timings Mo=
+n-Fri: 10:00am to 6:00pm)</strong></p>=20
+                     </div></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table>=20
+     <table class=3D"row row-21" align=3D"center" width=3D"100%" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;background-color:#fff">=20
+      <tbody>=20
+       <tr>=20
+        <td>=20
+         <table class=3D"row-content" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e:0;mso-table-rspace:0;background-color:#fff;color:#000;width:500px;margin:=
+0 auto" width=3D"500">=20
+          <tbody>=20
+           <tr>=20
+            <td class=3D"column column-1" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"text_block block-1" width=3D"100%" border=3D"0=
+" cellpadding=3D"10" cellspacing=3D"0" role=3D"presentation" style=3D"mso-t=
+able-lspace:0;mso-table-rspace:0;word-break:break-word">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad">=20
+                 <div style=3D"font-family:sans-serif">=20
+                  <div class style=3D"font-size:14px;font-family:Arial,Helv=
+etica Neue,Helvetica,sans-serif;mso-line-height-alt:16.8px;color:#555;line-=
+height:1.2">=20
+                   <p style=3D"margin:0;font-size:14px;text-align:right;mso=
+-line-height-alt:16.8px"><span style=3D"word-break: break-word; font-size: =
+13px; color: #000000;"><strong>Follow us on</strong></span></p>=20
+                  </div>=20
+                 </div></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+            <td class=3D"column column-2" width=3D"50%" style=3D"mso-table-=
+lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;background-colo=
+r:#fff;vertical-align:top">=20
+             <table class=3D"social_block block-1" width=3D"100%" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-=
+table-lspace:0;mso-table-rspace:0">=20
+              <tbody>=20
+               <tr>=20
+                <td class=3D"pad" align=3D"left">=20
+                 <table class=3D"social-table" width=3D"69px" border=3D"0" =
+cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-tabl=
+e-lspace:0;mso-table-rspace:0">=20
+                  <tbody>=20
+                   <tr>=20
+                    <td style=3D"padding:0"><a href=3D"https://j44kplkl.r.u=
+s-east-2.awstrack.me/L0/https:%2F%2Ft.ocmails.app%2Fsubscriber%2FupdateDigi=
+talReport.mqrm%3FrequestedAction=3Dclick%26sentId=3Du%252BZg6J1Hr4s0MdAhmpu=
+s5w%253D%253D%26url=3Dhttps%253A%252F%252Fwww.instagram.com%252Fstyleunion.=
+in%252F/1/010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000/RgFW=
+IX1Od_4fIt6Ku4Dg9obrKag=3D258" ><img src=3D"https://app-rsrc.getbee.io/publ=
+ic/resources/social-networks-icon-sets/circle-color/instagram@2x.png" width=
+=3D"32" height=3D"auto" alt=3D"Instagram" title=3D"Instagram" style=3D"disp=
+lay:block;height:auto;border:0"></a></td>=20
+                    <td style=3D"padding:0 0 0 5px"><a href=3D"https://j44k=
+plkl.r.us-east-2.awstrack.me/L0/https:%2F%2Ft.ocmails.app%2Fsubscriber%2Fup=
+dateDigitalReport.mqrm%3FrequestedAction=3Dclick%26sentId=3Du%252BZg6J1Hr4s=
+0MdAhmpus5w%253D%253D%26url=3Dhttps%253A%252F%252Fwww.facebook.com%252FStyl=
+eunion.in/1/010f01a08bab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000/aK=
+E_m8HptmJHfHTqK3IpkpIwzj0=3D258" ><img src=3D"https://app-rsrc.getbee.io/pu=
+blic/resources/social-networks-icon-sets/circle-color/facebook@2x.png" widt=
+h=3D"32" height=3D"auto" alt=3D"Facebook" title=3D"Facebook" style=3D"displ=
+ay:block;height:auto;border:0"></a></td>=20
+                   </tr>=20
+                  </tbody>=20
+                 </table></td>=20
+               </tr>=20
+              </tbody>=20
+             </table></td>=20
+           </tr>=20
+          </tbody>=20
+         </table></td>=20
+       </tr>=20
+      </tbody>=20
+     </table></td>=20
+   </tr>=20
+  </tbody>=20
+ </table>=20
+ <!-- End -->=20
+ <div style=3D"PADDING-TOP: 5px; BACKGROUND-COLOR: #FFFFFF" align=3D"left">
+  <table style=3D"FONT-SIZE: 8pt; WIDTH: 100%; COLOR: #000000; FONT-FAMILY:=
+ Tahoma,arial; BACKGROUND-COLOR: transparent" cellspacing=3D"0" cellpadding=
+=3D"0" border=3D"0" align=3D"left">
+   <tbody>
+    <tr>
+     <td>
+      <div>
+       <img style=3D"float:left;margin-right:5px;" height=3D"13" width=3D"1=
+9" alt=3D"IUS" src=3D"https://t.ocmails.app/subscriber/updateDigitalReport.=
+mqrm?requestedAction=3Dopen&amp;sentId=3Du%2BZg6J1Hr4s0MdAhmpus5w%3D%3D">
+      </div></td>
+    </tr>
+   </tbody>
+  </table>
+ </div>
+<img alt=3D"" src=3D"https://j44kplkl.r.us-east-2.awstrack.me/I0/010f01a08b=
+ab7062-41e6e2ac-330c-436b-b354-d9ac3f477b62-000000/-P5MTBl5wO-w1pAmnLinvFD4=
+fVQ=3D258" style=3D"display: none; width: 1px; height: 1px;">
+</body></html>
+------=_Part_335378_1798289512.1789049663399--
