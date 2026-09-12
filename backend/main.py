@@ -33,6 +33,7 @@ async def analyze_email(file: UploadFile = File(...)):
     ip_classification = header_analyzer.classify_ip_source(location)
     auth = header_analyzer.check_authentication(msg)
     urls = link_analyzer.extract_urls(msg)
+    unique_url_count = len(set(urls))
     domains = list(set(link_analyzer.extract_domain(u) for u in urls))
     domain_analysis = threat_intel.analyze_all_domains(domains)
     overall_risk = risk_engine.calculate_overall_risk(auth, ip_classification, domain_analysis)
@@ -56,6 +57,8 @@ async def analyze_email(file: UploadFile = File(...)):
         "location": location,
         "authentication": auth,
         "urls_found": urls,
+        "total_links_found": len(urls),
+        "unique_links_found": unique_url_count,
         "domains_found": domains,
         "ip_classification": ip_classification,
         "domain_analysis": domain_analysis,

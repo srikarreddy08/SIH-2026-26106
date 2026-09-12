@@ -38,3 +38,7 @@ Thumbs.db
 
 # Secrets
 secrets/
+
+email_forensics.db
+_pycache__/
+*.pyc
