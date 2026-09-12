@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "ai-model")))
 
 from fastapi import FastAPI, UploadFile, File
+from pydantic import BaseModel
 from forensic.analyzers import sender_analyzer, header_analyzer, link_analyzer, threat_intel, risk_engine
 from forensic import database
 
@@ -28,15 +29,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+class RawEmailInput(BaseModel):
+    raw_email: str
+
+
 @app.get("/")
 def read_root():
     return {"message": "Hello, I am working"}
 
 
-@app.post("/analyze-email")
-async def analyze_email(file: UploadFile = File(...)):
-    contents = await file.read()
-
+async def run_full_analysis(contents: bytes):
+    """Shared analysis pipeline - used by both the file-upload and raw-text endpoints."""
     basic_info, msg = sender_analyzer.parse_email(contents)
     candidate_ips, public_ips = header_analyzer.extract_ips(msg)
     location = header_analyzer.locate_sender(public_ips)
@@ -87,6 +91,7 @@ async def analyze_email(file: UploadFile = File(...)):
     )
 
     related_emails = database.find_related_emails(sending_ip=sending_ip)
+
     return {
         **basic_info,
         "all_ips_found": candidate_ips,
@@ -102,6 +107,22 @@ async def analyze_email(file: UploadFile = File(...)):
         "overall_risk": overall_risk,
         "related_emails_from_same_ip": related_emails
     }
+
+
+@app.post("/analyze-email")
+async def analyze_email(file: UploadFile = File(...)):
+    """Used by the website - accepts an uploaded .eml file."""
+    contents = await file.read()
+    return await run_full_analysis(contents)
+
+
+@app.post("/analyze-email-text")
+async def analyze_email_text(payload: RawEmailInput):
+    """Used by the browser extension - accepts raw pasted email source as plain text."""
+    contents = payload.raw_email.encode("utf-8", errors="ignore")
+    return await run_full_analysis(contents)
+
+
 @app.get("/analyses")
 def list_analyses():
     return database.get_all_analyses()
