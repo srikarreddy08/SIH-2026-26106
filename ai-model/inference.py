@@ -1,6 +1,8 @@
 from pathlib import Path
 import joblib
 
+from indicators import detect_indicators
+
 
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "model" / "email_threat_model.joblib"
@@ -9,12 +11,6 @@ model = joblib.load(MODEL_PATH)
 
 
 def predict_email(email_text):
-    """
-    Predict whether an email is suspicious/phishing.
-
-    Returns:
-        dict containing prediction, probability and risk level.
-    """
 
     probabilities = model.predict_proba([email_text])[0]
     classes = model.classes_
@@ -30,18 +26,14 @@ def predict_email(email_text):
 
     prediction = 1 if phishing_probability >= 0.50 else 0
 
+    indicators = detect_indicators(email_text)
+    indicator_messages = [item["indicator"] for item in indicators]
+
     return {
-        "prediction": prediction,
-        "phishing_probability": round(float(phishing_probability), 4),
-        "risk_level": risk_level
-    }
-
-if __name__ == "__main__":
-    email = """
-    URGENT: Your account has been suspended.
-    Please verify your password immediately.
-    """
-
-    result = predict_email(email)
-
-    print(result)
+    "prediction": prediction,
+    "phishing_probability": round(float(phishing_probability), 4),
+    "risk_level": risk_level,
+    "indicators": indicators,
+    "indicator_count": len(indicators),
+    "indicator_messages": indicator_messages
+}
