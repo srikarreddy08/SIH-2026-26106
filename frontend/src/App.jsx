@@ -17,57 +17,162 @@ import {
 
 import "./App.css";
 
-const fakeResult = {
-  riskScore: 91,
-  riskLevel: "HIGH RISK",
-  classification: "PHISHING",
+// Change this if your backend runs on a different machine/port.
+const API_URL = "http://127.0.0.1:8000";
 
-  email: {
-    from: "security-alert@paypa1-support.com",
-    to: "user@example.com",
-    subject: "Urgent: Your account requires verification",
-  },
+function mapApiResponseToResult(data) {
+  const verdict = data.overall_risk?.verdict ?? "likely_safe";
 
-  authentication: {
-    spf: "FAILED",
-    dkim: "FAILED",
-    dmarc: "FAILED",
-  },
+  const riskLevelMap = {
+    high_risk: "HIGH RISK",
+    medium_risk: "MEDIUM RISK",
+    low_risk: "LOW RISK",
+    likely_safe: "LIKELY SAFE",
+  };
 
-  iocs: {
-    domains: [
-      "paypa1-support.com",
-      "secure-account-verification.net",
-    ],
-    ips: [
-      "185.220.101.42",
-      "91.108.56.120",
-    ],
-    urls: [
-      "https://paypa1-support.com/verify",
-      "https://secure-account-verification.net/login",
-    ],
-  },
+  const classificationMap = {
+    high_risk: "PHISHING",
+    medium_risk: "SUSPICIOUS",
+    low_risk: "LOW RISK",
+    likely_safe: "SAFE",
+  };
 
-  location: {
-    country: "Netherlands",
-    region: "North Holland",
-    city: "Amsterdam",
-  },
+  const authLabel = (v) =>
+    v === "pass" ? "PASSED" : v === "fail" ? "FAILED" : "UNKNOWN";
 
-  indicators: [
-    "Urgent language detected",
-    "Suspicious sender domain",
-    "Credential harvesting URL",
-    "Authentication failures",
-    "Domain impersonation detected",
-  ],
-};
+  const suspiciousDomains = (data.domain_analysis || [])
+    .filter((d) => d.flags && d.flags.length > 0)
+    .map((d) => d.domain);
+
+  return {
+    riskScore: data.overall_risk?.overall_risk_score ?? 0,
+    riskLevel: riskLevelMap[verdict] || "UNKNOWN",
+    classification: classificationMap[verdict] || "UNKNOWN",
+
+    email: {
+      from: data.from,
+      to: data.to,
+      subject: data.subject,
+    },
+
+    authentication: {
+      spf: authLabel(data.authentication?.spf),
+      dkim: authLabel(data.authentication?.dkim),
+      dmarc: authLabel(data.authentication?.dmarc),
+    },
+
+    iocs: {
+      domains: suspiciousDomains.length
+        ? suspiciousDomains
+        : data.domains_found || [],
+      ips: data.public_ips || [],
+      urls: (data.urls_found || []).slice(0, 5),
+    },
+
+    location: data.location
+      ? {
+          country: data.location.country || "Unknown",
+          region: data.location.region || "Unknown",
+          city: data.location.city || "Unknown",
+        }
+      : { country: "Unknown", region: "Unknown", city: "Unknown" },
+
+    sendingIp:
+      data.public_ips && data.public_ips.length > 0
+        ? data.public_ips[data.public_ips.length - 1]
+        : "Unknown",
+
+    indicators:
+      data.overall_risk?.reasons && data.overall_risk.reasons.length > 0
+        ? data.overall_risk.reasons
+        : ["No significant threat indicators detected"],
+  };
+}
+
+function generateReport(result) {
+  const now = new Date().toLocaleString();
+
+  const reportHtml = `
+    <html>
+      <head>
+        <title>Forensic Investigation Report</title>
+        <style>
+          body { font-family: Arial, sans-serif; padding: 40px; color: #1a1a1a; }
+          h1 { font-size: 22px; border-bottom: 2px solid #00a8ff; padding-bottom: 10px; }
+          h2 { font-size: 15px; margin-top: 28px; color: #005b82; }
+          .meta { color: #666; font-size: 12px; margin-bottom: 20px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+          td { padding: 6px 8px; border: 1px solid #ddd; font-size: 12px; vertical-align: top; }
+          td.label { font-weight: bold; width: 160px; background: #f5f5f5; }
+          .risk-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 4px;
+            font-weight: bold; font-size: 13px; color: white;
+          }
+          ul { margin: 6px 0; padding-left: 20px; font-size: 12px; }
+          li { margin-bottom: 4px; }
+        </style>
+      </head>
+      <body>
+        <h1>Email Forensic Investigation Report</h1>
+        <div class="meta">Generated: ${now}</div>
+
+        <h2>Overall Risk Assessment</h2>
+        <table>
+          <tr><td class="label">Risk Score</td><td>${result.riskScore} / 100</td></tr>
+          <tr><td class="label">Risk Level</td><td>${result.riskLevel}</td></tr>
+          <tr><td class="label">Classification</td><td>${result.classification}</td></tr>
+        </table>
+
+        <h2>Email Information</h2>
+        <table>
+          <tr><td class="label">From</td><td>${result.email.from || "N/A"}</td></tr>
+          <tr><td class="label">To</td><td>${result.email.to || "N/A"}</td></tr>
+          <tr><td class="label">Subject</td><td>${result.email.subject || "N/A"}</td></tr>
+        </table>
+
+        <h2>Email Authentication</h2>
+        <table>
+          <tr><td class="label">SPF</td><td>${result.authentication.spf}</td></tr>
+          <tr><td class="label">DKIM</td><td>${result.authentication.dkim}</td></tr>
+          <tr><td class="label">DMARC</td><td>${result.authentication.dmarc}</td></tr>
+        </table>
+
+        <h2>Sender Infrastructure / Geolocation</h2>
+        <table>
+          <tr><td class="label">Country</td><td>${result.location.country}</td></tr>
+          <tr><td class="label">Region</td><td>${result.location.region}</td></tr>
+          <tr><td class="label">City</td><td>${result.location.city}</td></tr>
+          <tr><td class="label">Sending IP</td><td>${result.sendingIp}</td></tr>
+        </table>
+
+        <h2>Indicators of Compromise</h2>
+        <table>
+          <tr><td class="label">Domains</td><td>${result.iocs.domains.join(", ") || "None"}</td></tr>
+          <tr><td class="label">IP Addresses</td><td>${result.iocs.ips.join(", ") || "None"}</td></tr>
+          <tr><td class="label">URLs</td><td>${result.iocs.urls.join("<br>") || "None"}</td></tr>
+        </table>
+
+        <h2>Detection Signals / Reasoning</h2>
+        <ul>
+          ${result.indicators.map((i) => `<li>${i}</li>`).join("")}
+        </ul>
+      </body>
+    </html>
+  `;
+
+  const reportWindow = window.open("", "_blank");
+  reportWindow.document.write(reportHtml);
+  reportWindow.document.close();
+  reportWindow.focus();
+  reportWindow.print();
+}
 
 function App() {
   const [screen, setScreen] = useState("home");
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
   const analysisSteps = [
     "Parsing email headers",
@@ -77,6 +182,7 @@ function App() {
     "Running threat intelligence analysis",
   ];
 
+  // Plays the step-by-step animation while "analyzing" is showing.
   useEffect(() => {
     if (screen !== "analyzing") return;
 
@@ -84,24 +190,23 @@ function App() {
 
     const timer = setInterval(() => {
       setProgress((previous) => {
-        if (previous >= analysisSteps.length) {
+        if (previous >= analysisSteps.length - 1) {
           clearInterval(timer);
           return previous;
         }
-
         return previous + 1;
       });
     }, 850);
 
-    const resultTimer = setTimeout(() => {
-      setScreen("results");
-    }, analysisSteps.length * 850 + 700);
-
-    return () => {
-      clearInterval(timer);
-      clearTimeout(resultTimer);
-    };
+    return () => clearInterval(timer);
   }, [screen]);
+
+  // Moves to the results screen only once the real backend result has arrived.
+  useEffect(() => {
+    if (result && screen === "analyzing") {
+      setScreen("results");
+    }
+  }, [result]);
 
   const handleFile = (event) => {
     const selected = event.target.files[0];
@@ -116,13 +221,39 @@ function App() {
     setFile(selected);
   };
 
-  const startAnalysis = () => {
+  const startAnalysis = async () => {
     setScreen("analyzing");
+    setError(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch(`${API_URL}/analyze-email`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResult(mapApiResponseToResult(data));
+    } catch (err) {
+      console.error("Analysis failed:", err);
+      setError(
+        "Failed to analyze email. Make sure the backend server is running."
+      );
+      setScreen("home");
+    }
   };
 
   const resetAnalysis = () => {
     setFile(null);
     setProgress(0);
+    setResult(null);
+    setError(null);
     setScreen("home");
   };
 
@@ -192,6 +323,12 @@ function App() {
             <div className="supported">
               Supported format: <span>.EML</span>
             </div>
+
+            {error && (
+              <p style={{ color: "#ff5d65", marginTop: "20px", fontSize: "13px" }}>
+                {error}
+              </p>
+            )}
 
           </section>
 
@@ -265,7 +402,7 @@ function App() {
 
       {/* ================= RESULTS ================= */}
 
-      {screen === "results" && (
+      {screen === "results" && result && (
         <main className="results-page">
 
           <header className="results-header">
@@ -302,7 +439,7 @@ function App() {
               <div className="score-ring">
 
                 <div className="score-inner">
-                  <strong>{fakeResult.riskScore}</strong>
+                  <strong>{result.riskScore}</strong>
                   <span>/100</span>
                 </div>
 
@@ -313,10 +450,10 @@ function App() {
                   OVERALL THREAT SCORE
                 </span>
 
-                <h2>{fakeResult.riskLevel}</h2>
+                <h2>{result.riskLevel}</h2>
 
                 <div className="risk-bar">
-                  <div style={{ width: `${fakeResult.riskScore}%` }}></div>
+                  <div style={{ width: `${result.riskScore}%` }}></div>
                 </div>
 
                 <p>
@@ -335,7 +472,7 @@ function App() {
 
               <div className="classification-value">
                 <ShieldAlert size={28} />
-                <strong>{fakeResult.classification}</strong>
+                <strong>{result.classification}</strong>
               </div>
 
               <span className="confidence">
@@ -362,17 +499,17 @@ function App() {
 
               <InfoBox
                 label="FROM"
-                value={fakeResult.email.from}
+                value={result.email.from}
               />
 
               <InfoBox
                 label="TO"
-                value={fakeResult.email.to}
+                value={result.email.to}
               />
 
               <InfoBox
                 label="SUBJECT"
-                value={fakeResult.email.subject}
+                value={result.email.subject}
                 wide
               />
 
@@ -396,19 +533,19 @@ function App() {
 
               <AuthCard
                 name="SPF"
-                status={fakeResult.authentication.spf}
+                status={result.authentication.spf}
                 description="Sending server is not authorized"
               />
 
               <AuthCard
                 name="DKIM"
-                status={fakeResult.authentication.dkim}
+                status={result.authentication.dkim}
                 description="Email signature verification failed"
               />
 
               <AuthCard
                 name="DMARC"
-                status={fakeResult.authentication.dmarc}
+                status={result.authentication.dmarc}
                 description="Domain authentication policy failed"
               />
 
@@ -435,10 +572,10 @@ function App() {
                 <Globe size={25} />
 
                 <span>COUNTRY</span>
-                <strong>{fakeResult.location.country}</strong>
+                <strong>{result.location.country}</strong>
 
                 <small>
-                  {fakeResult.location.region}
+                  {result.location.region}
                 </small>
 
               </div>
@@ -448,7 +585,7 @@ function App() {
                 <MapPin size={25} />
 
                 <span>CITY</span>
-                <strong>{fakeResult.location.city}</strong>
+                <strong>{result.location.city}</strong>
 
                 <small>
                   Sender origin estimate
@@ -461,7 +598,7 @@ function App() {
                 <Server size={25} />
 
                 <span>SENDING IP</span>
-                <strong>185.220.101.42</strong>
+                <strong>{result.sendingIp}</strong>
 
                 <small>
                   Public infrastructure
@@ -494,19 +631,19 @@ function App() {
               <IOCList
                 icon={<Globe size={19} />}
                 title="Suspicious Domains"
-                items={fakeResult.iocs.domains}
+                items={result.iocs.domains}
               />
 
               <IOCList
                 icon={<Server size={19} />}
                 title="IP Addresses"
-                items={fakeResult.iocs.ips}
+                items={result.iocs.ips}
               />
 
               <IOCList
                 icon={<LinkIcon size={19} />}
                 title="Malicious URLs"
-                items={fakeResult.iocs.urls}
+                items={result.iocs.urls}
               />
 
             </div>
@@ -531,7 +668,7 @@ function App() {
 
             <div className="indicator-list">
 
-              {fakeResult.indicators.map((indicator) => (
+              {result.indicators.map((indicator) => (
                 <div className="indicator" key={indicator}>
                   <AlertTriangle size={17} />
                   <span>{indicator}</span>
@@ -561,7 +698,7 @@ function App() {
               </p>
             </div>
 
-            <button className="report-button">
+            <button className="report-button" onClick={() => generateReport(result)}>
               Generate Investigation Report
               <ArrowRight size={18} />
             </button>

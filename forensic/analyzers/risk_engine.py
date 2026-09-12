@@ -41,3 +41,21 @@ def calculate_overall_risk(authentication, ip_classification, domain_analysis):
         "verdict": verdict,
         "reasons": reasons
     }
+
+def combine_with_ml_score(rule_based_score: int, ml_result: dict = None):
+    """Combine the rule-based risk score with the AI model's prediction, if available."""
+    if not ml_result:
+        return rule_based_score, []
+
+    ml_score_scaled = ml_result["phishing_probability"] * 100
+    combined = round((rule_based_score * 0.4) + (ml_score_scaled * 0.6))
+
+    ml_reasons = []
+    if ml_result.get("prediction") == 1:
+        ml_reasons.append(
+            f"AI model flagged this email as phishing (confidence: {ml_result['phishing_probability']:.0%})"
+        )
+    for msg in ml_result.get("indicator_messages", []):
+        ml_reasons.append(f"AI detected suspicious phrase: '{msg}'")
+
+    return min(combined, 100), ml_reasons

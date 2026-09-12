@@ -1,0 +1,26 @@
+From: "Secure Bank Alert" <security@secure-bank-alerts.tk>
+To: bhavana.reddyy07@gmail.com
+Subject: URGENT: Your account has been suspended - verify now
+Date: Fri, 12 Sep 2026 03:15:00 +0000
+Message-ID: <fake123456@secure-bank-alerts.tk>
+Received: from unknown-mail-relay.ru (unknown-mail-relay.ru [185.220.101.45])
+    by mx.example.com with SMTP id abc123;
+    Fri, 12 Sep 2026 03:15:00 +0000
+Received: from [45.153.160.2] (helo=mail.secure-bank-alerts.tk)
+    by unknown-mail-relay.ru with esmtp;
+    Fri, 12 Sep 2026 03:14:50 +0000
+Authentication-Results: mx.example.com;
+    spf=fail smtp.mailfrom=secure-bank-alerts.tk;
+    dkim=fail header.i=@secure-bank-alerts.tk;
+    dmarc=fail action=reject
+Content-Type: text/html; charset="UTF-8"
+
+<html>
+<body>
+<p>Dear Customer,</p>
+<p>We detected unusual activity on your account. Your account will be <b>permanently suspended within 24 hours</b> unless you verify your identity immediately.</p>
+<p>Click here to verify: <a href="http://secure-bank-verify.tk/login?id=8347562">http://secure-bank-verify.tk/login?id=8347562</a></p>
+<p>Alternative link: <a href="http://192.168.45.22/verify.php">http://192.168.45.22/verify.php</a></p>
+<p>Thank you,<br>Security Team</p>
+</body>
+</html>
