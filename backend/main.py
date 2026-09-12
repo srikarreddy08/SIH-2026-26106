@@ -10,6 +10,7 @@ from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 from forensic.analyzers import sender_analyzer, header_analyzer, link_analyzer, threat_intel, risk_engine
 from forensic import database
+from forensic.analyzers import feature_summary
 
 try:
     from inference import predict_email
