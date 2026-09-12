@@ -30,6 +30,10 @@ Thumbs.db
 *.pt
 *.pth
 
+# AI datasets
+ai-model/data/phishing_email.csv
+ai-model/data/processed.csv
+
 # Logs
 *.log
 
@@ -39,6 +43,5 @@ Thumbs.db
 # Secrets
 secrets/
 
+# Email forensics database
 email_forensics.db
-_pycache__/
-*.pyc
