@@ -38,3 +38,14 @@ Thumbs.db
 
 # Secrets
 secrets/
+
+# AI datasets
+ai-model/data/phishing_email.csv
+ai-model/data/processed.csv
+
+# Trained ML models
+ai-model/model/*.joblib
+
+# Python cache
+__pycache__/
+*.pyc
