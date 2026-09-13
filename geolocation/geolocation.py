@@ -37,29 +37,57 @@ import requests
 _geo_cache = {}
 
 
+# ipwho.is only returns VPN/proxy/Tor/hosting flags when explicitly
+# requested via the "fields" parameter (dot notation for nested
+# fields) - they are NOT in the default payload.
+IPWHO_FIELDS = (
+    "ip,success,country,country_code,city,latitude,longitude,"
+    "connection.asn,connection.org,connection.isp,"
+    "security.vpn,security.proxy,security.tor,security.hosting"
+)
+
+
 def geolocate_ip(ip: str) -> dict:
-    """Looks up country/city/ASN/org for an IP via ipwho.is.
-    Returns {} on failure so callers can degrade gracefully instead
-    of crashing on a bad lookup or rate limit."""
+    """Looks up country/city/ASN/org AND real VPN/proxy/Tor/hosting
+    flags for an IP via ipwho.is. Returns {} on failure so callers can
+    degrade gracefully instead of crashing on a bad lookup or rate limit."""
     if not ip:
         return {}
     if ip in _geo_cache:
         return _geo_cache[ip]
 
     try:
-        response = requests.get(f"https://ipwho.is/{ip}", timeout=5)
+        response = requests.get(
+            f"https://ipwho.is/{ip}", params={"fields": IPWHO_FIELDS}, timeout=5
+        )
         data = response.json()
         if not data.get("success", True):
             result = {}
         else:
+            connection = data.get("connection", {}) or {}
+            security = data.get("security", {}) or {}
+            org = connection.get("org") or connection.get("isp")
+            is_hosting = security.get("hosting", False)
+
             result = {
                 "country": data.get("country"),
                 "country_code": data.get("country_code"),
                 "city": data.get("city"),
                 "latitude": data.get("latitude"),
                 "longitude": data.get("longitude"),
-                "asn": data.get("connection", {}).get("asn"),
-                "org": data.get("connection", {}).get("org") or data.get("connection", {}).get("isp"),
+                "asn": connection.get("asn"),
+                "org": org,
+                # Real flags from the provider, not string-guessing on org name
+                "is_vpn": security.get("vpn", False),
+                "is_proxy": security.get("proxy", False),
+                "is_tor": security.get("tor", False),
+                "is_hosting": is_hosting,
+                "network_type": "Datacenter" if is_hosting else ("Residential/ISP" if org else "Unknown"),
+                # City-level IP geolocation is inherently approximate - if we
+                # have a city AND an org name, call it higher confidence;
+                # country-only data is marked lower confidence rather than
+                # presenting an unverified city as fact.
+                "location_confidence": "High" if (data.get("city") and org) else ("Medium" if data.get("country") else "Low"),
             }
     except (requests.RequestException, ValueError):
         result = {}
@@ -193,18 +221,38 @@ LEGITIMATE_MAIL_ORGS = ("google", "microsoft", "outlook", "yahoo", "proton")
 
 
 def asn_reputation_check(sending_ip: str) -> dict:
+    """Uses ipwho.is's real vpn/proxy/tor/hosting flags where available
+    (accurate), falling back to org-name keyword matching only if the
+    security fields are missing (e.g. rate-limited or older cached
+    entry) - keeps working in degraded mode instead of failing silently."""
     reasons = []
     score = 0
 
     geo = geolocate_ip(sending_ip)
     org = (geo.get("org") or "").lower()
+    has_security_flags = "is_vpn" in geo
 
-    is_legit_mail_org = any(keyword in org for keyword in LEGITIMATE_MAIL_ORGS)
-    is_suspicious_org = any(keyword in org for keyword in SUSPICIOUS_ORG_KEYWORDS)
-
-    if is_suspicious_org and not is_legit_mail_org:
-        score += 30
-        reasons.append(f"Sending IP belongs to '{geo.get('org', 'unknown')}' - hosting/VPN network, not typical mail infrastructure")
+    if has_security_flags:
+        if geo.get("is_tor"):
+            score += 40
+            reasons.append("Sending IP is a known Tor exit node")
+        if geo.get("is_vpn"):
+            score += 25
+            reasons.append("Sending IP is a known VPN endpoint")
+        if geo.get("is_proxy"):
+            score += 25
+            reasons.append("Sending IP is a known proxy")
+        if geo.get("is_hosting") and not any(k in org for k in LEGITIMATE_MAIL_ORGS):
+            score += 15
+            reasons.append(f"Sending IP is on datacenter/hosting infrastructure ('{geo.get('org', 'unknown')}'), not typical mail infrastructure")
+    else:
+        # Degraded fallback: weaker signal, only used if the API didn't
+        # return security fields for this lookup (e.g. rate limited).
+        is_legit_mail_org = any(keyword in org for keyword in LEGITIMATE_MAIL_ORGS)
+        is_suspicious_org = any(keyword in org for keyword in SUSPICIOUS_ORG_KEYWORDS)
+        if is_suspicious_org and not is_legit_mail_org:
+            score += 20
+            reasons.append(f"Sending IP belongs to '{geo.get('org', 'unknown')}' (org-name heuristic - security flags unavailable)")
 
     ptr = reverse_dns(sending_ip)
     if ptr is None:
@@ -234,4 +282,76 @@ def score_geolocation(from_domain: str, sending_ip: str, received_hops: list) ->
         "timeline_check": timeline,
         "asn_check": asn,
         "reasons": reasons,
+    }
+
+
+# --------------------------------
+# HOP PATH FOR MAP DISPLAY
+# Turns the raw Received-header hop list into an ordered, geolocated
+# path the frontend can drop straight onto a map - markers + a line
+# connecting them in relay order.
+# --------------------------------
+
+def build_hop_path(received_hops: list, flagged_ips: set = None) -> list:
+    """Returns hops oldest -> newest (the actual relay order), each
+    with coordinates and a flag for whether that hop contributed to
+    a risk score - so the frontend can color it differently on the map.
+    Hops with no resolvable IP or failed geolocation are skipped
+    rather than breaking the path."""
+    flagged_ips = flagged_ips or set()
+    path = []
+
+    # Received headers are newest-first in the raw email; reverse so
+    # the map draws the path in the order the mail actually traveled.
+    for hop in reversed(received_hops):
+        ip = hop.get("ip")
+        if not ip:
+            continue
+        geo = geolocate_ip(ip)
+        if not geo.get("latitude") or not geo.get("longitude"):
+            continue
+        path.append({
+            "ip": ip,
+            "country": geo.get("country"),
+            "city": geo.get("city"),
+            "lat": geo.get("latitude"),
+            "lon": geo.get("longitude"),
+            "org": geo.get("org"),
+            "flagged": ip in flagged_ips,
+        })
+
+    return path
+
+
+# --------------------------------
+# SOURCE INTELLIGENCE CARD
+# Formats one IP's lookup into the exact display shape for a frontend
+# "source intelligence" panel. Pure formatting - no new lookups beyond
+# geolocate_ip(), so it's cheap to call right before rendering.
+# --------------------------------
+
+def build_source_intelligence(ip: str) -> dict:
+    geo = geolocate_ip(ip)
+    if not geo:
+        return {
+            "ip_address": ip,
+            "country": "Unknown",
+            "city": "Unknown",
+            "asn": "Unknown",
+            "network_type": "Unknown",
+            "vpn_proxy": "Unknown",
+            "tor": "Unknown",
+            "location_confidence": "Low",
+        }
+
+    vpn_or_proxy = geo.get("is_vpn") or geo.get("is_proxy")
+    return {
+        "ip_address": ip,
+        "country": geo.get("country") or "Unknown",
+        "city": geo.get("city") or "Unknown",
+        "asn": geo.get("asn") or "Unknown",
+        "network_type": geo.get("network_type", "Unknown"),
+        "vpn_proxy": "Possible" if vpn_or_proxy else "Not detected",
+        "tor": "Detected" if geo.get("is_tor") else "Not detected",
+        "location_confidence": geo.get("location_confidence", "Low"),
     }
