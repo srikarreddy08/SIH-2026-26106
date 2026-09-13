@@ -355,3 +355,117 @@ def build_source_intelligence(ip: str) -> dict:
         "tor": "Detected" if geo.get("is_tor") else "Not detected",
         "location_confidence": geo.get("location_confidence", "Low"),
     }
+
+
+# --------------------------------
+# TRUST BOUNDARY DETECTION
+# Not every hop deserves the same scrutiny. Headers stamped by YOUR
+# OWN provider's internal infrastructure (once the message has already
+# entered their network) are reliable - the attacker never touches
+# those servers. Everything before that point was written by hops the
+# sender's side controls, and could be entirely forged. This finds
+# where that line is and runs ASN/VPN checks only where they matter.
+# --------------------------------
+
+import re
+
+TRUSTED_MTA_KEYWORDS = (
+    "google.com", "googlemail.com", "gmail.com",
+    "outlook.com", "protection.outlook.com", "microsoft.com",
+    "yahoodns.net", "yahoo.com",
+    "protonmail.ch", "proton.me",
+)
+
+BY_HOST_PATTERN = re.compile(r"\bby\s+([^\s;()]+)", re.IGNORECASE)
+
+
+def _extract_by_host(raw_header: str) -> str:
+    match = BY_HOST_PATTERN.search(raw_header)
+    return match.group(1).lower() if match else ""
+
+
+def _is_trusted_host(hostname: str) -> bool:
+    return any(keyword in hostname for keyword in TRUSTED_MTA_KEYWORDS)
+
+
+def find_trust_boundary(received_hops: list) -> int:
+    """received_hops is newest-first (as parsed straight from headers -
+    index 0 is the hop closest to your inbox). Walks downward while
+    hops are stamped 'by' your provider's own trusted infrastructure.
+
+    Returns the index of the LAST such trusted hop - the border MTA
+    record. That specific hop is the most reliable piece of evidence
+    you have: it's the point where YOUR OWN trusted server wrote down
+    which external IP connected to it, so the attacker never got a
+    chance to forge it. Everything from this index onward (inclusive)
+    is the zone worth running ASN/VPN checks against - the border hop
+    for its verified external IP, and deeper hops as weaker signal.
+
+    If the very first hop isn't recognized as trusted infrastructure
+    at all, returns 0 - meaning nothing can be vouched for, so treat
+    the whole chain as untrusted."""
+    last_trusted_index = -1
+    for index, hop in enumerate(received_hops):
+        by_host = _extract_by_host(hop.get("raw", ""))
+        if _is_trusted_host(by_host):
+            last_trusted_index = index
+        else:
+            break  # trust chain must be unbroken from the top
+    return max(last_trusted_index, 0)
+
+
+def get_untrusted_hops(received_hops: list) -> list:
+    """Everything at/after the trust boundary - the zone worth running
+    ASN/VPN/domain checks against."""
+    boundary = find_trust_boundary(received_hops)
+    return received_hops[boundary:]
+
+
+def score_relay_chain(from_domain: str, received_hops: list) -> dict:
+    """Runs domain-mismatch and ASN/VPN reputation checks across every
+    hop in the untrusted zone (not just one IP) and rolls them up.
+    Uses the WORST (max) score per check type - one bad hop is enough
+    to flag the email - while keeping every flagged hop's reason for
+    the forensic report, not just the top offender's."""
+    untrusted_hops = get_untrusted_hops(received_hops)
+
+    if not untrusted_hops:
+        return {
+            "geo_risk_score": 0,
+            "reasons": ["No untrusted relay hops found - entire chain matched known trusted providers"],
+            "checked_ips": [],
+        }
+
+    domain_score = 0
+    asn_score = 0
+    reasons = []
+    checked_ips = []
+    seen_ips = set()
+
+    for hop in untrusted_hops:
+        ip = hop.get("ip")
+        if not ip or ip in seen_ips:
+            continue
+        seen_ips.add(ip)
+        checked_ips.append(ip)
+
+        domain_result = domain_mismatch_check(from_domain, ip)
+        asn_result = asn_reputation_check(ip)
+
+        domain_score = max(domain_score, domain_result["score"])
+        asn_score = max(asn_score, asn_result["score"])
+
+        for reason in domain_result["reasons"] + asn_result["reasons"]:
+            reasons.append(f"[{ip}] {reason}")
+
+    timeline = timeline_consistency_check(received_hops)
+
+    total_score = min(100, domain_score + asn_score + timeline["score"])
+    reasons.extend(timeline["reasons"])
+
+    return {
+        "geo_risk_score": total_score,
+        "reasons": reasons,
+        "checked_ips": checked_ips,
+        "trust_boundary_index": find_trust_boundary(received_hops),
+    }
