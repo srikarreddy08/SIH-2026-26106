@@ -1,0 +1,5 @@
+model,accuracy_mean,accuracy_std,precision_mean,precision_std,recall_mean,recall_std,f1_mean,f1_std,roc_auc_mean,roc_auc_std
+Logistic Regression,0.9713,0.0157,0.9742,0.0191,0.9536,0.0283,0.9636,0.0202,0.9967,0.003
+Linear SVM (calibrated),0.9776,0.0109,0.9723,0.0197,0.972,0.0152,0.972,0.0136,0.9978,0.0024
+Multinomial Naive Bayes,0.9524,0.018,0.9891,0.0132,0.8905,0.0369,0.937,0.0246,0.9963,0.0045
+SGD (log-loss),0.9734,0.0116,0.9713,0.0209,0.9624,0.017,0.9666,0.0145,0.9976,0.0024
