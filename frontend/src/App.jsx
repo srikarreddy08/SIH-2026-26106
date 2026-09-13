@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import "./App.css";
+import HopMap from "./HopMap";
 
 // Change this if your backend runs on a different machine/port.
 const API_URL = "http://127.0.0.1:8000";
@@ -81,6 +82,8 @@ function mapApiResponseToResult(data) {
       data.public_ips && data.public_ips.length > 0
         ? data.public_ips[data.public_ips.length - 1]
         : "Unknown",
+
+    hopPath: data.hop_path || [],
 
     indicators:
       data.overall_risk?.reasons && data.overall_risk.reasons.length > 0
@@ -606,6 +609,10 @@ function App() {
 
               </div>
 
+            </div>
+
+            <div className="hop-map-wrapper">
+              <HopMap hopPath={result.hopPath} />
             </div>
 
           </section>

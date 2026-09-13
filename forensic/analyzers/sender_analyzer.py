@@ -1,4 +1,5 @@
 import email
+import email.utils
 import re
 
 
@@ -38,3 +39,18 @@ def extract_body_text(msg) -> str:
                 continue
 
     return ""
+
+
+def extract_from_domain(from_header: str) -> str:
+    """Pull just the domain out of the email's From header, e.g.
+    '"Alice" <alice@example.com>' -> 'example.com'. Used by the
+    geolocation engine to compare the claimed sending domain against
+    where the mail actually came from."""
+    if not from_header:
+        return None
+
+    _, address = email.utils.parseaddr(from_header)
+    if "@" not in address:
+        return None
+
+    return address.rsplit("@", 1)[-1].lower()

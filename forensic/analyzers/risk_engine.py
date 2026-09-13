@@ -27,20 +27,39 @@ def calculate_overall_risk(authentication, ip_classification, domain_analysis):
 
     score = min(round(score), 100)
 
-    if score >= 70:
-        verdict = "high_risk"
-    elif score >= 40:
-        verdict = "medium_risk"
-    elif score > 0:
-        verdict = "low_risk"
-    else:
-        verdict = "likely_safe"
-
     return {
         "overall_risk_score": score,
-        "verdict": verdict,
+        "verdict": verdict_from_score(score),
         "reasons": reasons
     }
+
+
+def verdict_from_score(score: int) -> str:
+    """Single source of truth for score -> verdict thresholds, so the
+    verdict stays consistent no matter which signals (rule-based,
+    geolocation, ML) ended up contributing to the final score."""
+    if score >= 70:
+        return "high_risk"
+    elif score >= 40:
+        return "medium_risk"
+    elif score > 0:
+        return "low_risk"
+    else:
+        return "likely_safe"
+
+
+def combine_with_geo_score(rule_based_score: int, geo_result: dict):
+    """Fold the geolocation engine's relay-chain risk (domain mismatch,
+    timeline anomalies, ASN/VPN/Tor reputation) into the rule-based score.
+    Weighted at 30%, the same weight already used for domain risk above,
+    so one noisy signal can't dominate the total."""
+    if not geo_result:
+        return rule_based_score, []
+
+    geo_contribution = round(geo_result.get("geo_risk_score", 0) * 0.3)
+    combined = min(rule_based_score + geo_contribution, 100)
+    return combined, geo_result.get("reasons", [])
+
 
 def combine_with_ml_score(rule_based_score: int, ml_result: dict = None):
     """Combine the rule-based risk score with the AI model's prediction, if available."""
@@ -51,7 +70,7 @@ def combine_with_ml_score(rule_based_score: int, ml_result: dict = None):
     combined = round((rule_based_score * 0.4) + (ml_score_scaled * 0.6))
 
     ml_reasons = []
-    if ml_result.get("prediction") == 1:
+    if ml_result.get("label") == 1:
         ml_reasons.append(
             f"AI model flagged this email as phishing (confidence: {ml_result['phishing_probability']:.0%})"
         )

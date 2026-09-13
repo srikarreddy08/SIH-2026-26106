@@ -794,6 +794,10 @@ button {
   font-size: 10px;
 }
 
+.hop-map-wrapper {
+  margin-top: 16px;
+}
+
 
 /* =========================
    IOC

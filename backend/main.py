@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from forensic.analyzers import sender_analyzer, header_analyzer, link_analyzer, threat_intel, risk_engine
 from forensic import database
 from forensic.analyzers import feature_summary
+from geolocation.geolocation import score_relay_chain, build_hop_path
 
 try:
     from inference import predict_email
@@ -44,6 +45,7 @@ async def run_full_analysis(contents: bytes):
     """Shared analysis pipeline - used by both the file-upload and raw-text endpoints."""
     basic_info, msg = sender_analyzer.parse_email(contents)
     candidate_ips, public_ips = header_analyzer.extract_ips(msg)
+    received_hops = header_analyzer.get_received_hops(msg)
     location = header_analyzer.locate_sender(public_ips)
     ip_classification = header_analyzer.classify_ip_source(location)
     auth = header_analyzer.check_authentication(msg)
@@ -52,6 +54,22 @@ async def run_full_analysis(contents: bytes):
     domains = list(set(link_analyzer.extract_domain(u) for u in urls))
     domain_analysis = threat_intel.analyze_all_domains(domains)
     overall_risk = risk_engine.calculate_overall_risk(auth, ip_classification, domain_analysis)
+    summary = feature_summary.build_feature_summary(auth, ip_classification, domain_analysis, urls, domains)
+
+    # Geolocation engine: relay-chain analysis (domain mismatch, forged-header
+    # timeline anomalies, ASN/VPN/Tor reputation on every untrusted hop) plus
+    # the ordered hop path the frontend map renders.
+    sender_domain = sender_analyzer.extract_from_domain(basic_info.get("from"))
+    geo_result = score_relay_chain(sender_domain, received_hops)
+    flagged_ips = set(geo_result.get("checked_ips", []))
+    hop_path = build_hop_path(received_hops, flagged_ips)
+
+    geo_score, geo_reasons = risk_engine.combine_with_geo_score(
+        overall_risk["overall_risk_score"], geo_result
+    )
+    overall_risk["overall_risk_score"] = geo_score
+    overall_risk["reasons"] = overall_risk["reasons"] + geo_reasons
+    overall_risk["geo_analysis"] = geo_result
 
     ml_result = None
     if AI_MODEL_AVAILABLE:
@@ -65,18 +83,13 @@ async def run_full_analysis(contents: bytes):
             )
             overall_risk["overall_risk_score"] = final_score
             overall_risk["reasons"] = overall_risk["reasons"] + ml_reasons
-
-            if final_score >= 70:
-                overall_risk["verdict"] = "high_risk"
-            elif final_score >= 40:
-                overall_risk["verdict"] = "medium_risk"
-            elif final_score > 0:
-                overall_risk["verdict"] = "low_risk"
-            else:
-                overall_risk["verdict"] = "likely_safe"
         except Exception as e:
             print("DEBUG - AI prediction failed for this email:", e)
 
+    # Recompute the verdict once, from the fully combined score (rule-based +
+    # geolocation + ML, whichever of those actually ran) - so it's always
+    # consistent with overall_risk_score regardless of which signals fired.
+    overall_risk["verdict"] = risk_engine.verdict_from_score(overall_risk["overall_risk_score"])
     overall_risk["ml_analysis"] = ml_result
 
     sending_ip = public_ips[-1] if public_ips else None
@@ -106,6 +119,8 @@ async def run_full_analysis(contents: bytes):
         "ip_classification": ip_classification,
         "domain_analysis": domain_analysis,
         "overall_risk": overall_risk,
+        "hop_path": hop_path,
+        "feature_summary": summary,
         "related_emails_from_same_ip": related_emails
     }
 

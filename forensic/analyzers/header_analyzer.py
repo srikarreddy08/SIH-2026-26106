@@ -27,6 +27,24 @@ def extract_ips(msg):
     return candidate_ips, public_ips
 
 
+def get_received_hops(msg):
+    """Return each Received header as an ordered hop record: the raw header
+    text plus the first public IP found in it. Order matches the headers as
+    they appear on the message (newest hop first) -- this is exactly the
+    shape the geolocation engine's relay-chain analysis and hop-path map
+    expect (see geolocation.find_trust_boundary / build_hop_path)."""
+    received_headers = msg.get_all("received") or []
+    ip_pattern = r'\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b'
+
+    hops = []
+    for header in received_headers:
+        ips_in_header = re.findall(ip_pattern, header)
+        public_ip = next((ip for ip in ips_in_header if is_public_ip(ip)), None)
+        hops.append({"raw": header, "ip": public_ip})
+
+    return hops
+
+
 def get_location(ip: str):
     """Retrieve full location data from ipwho.is for a public IP."""
     try:

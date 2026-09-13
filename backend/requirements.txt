@@ -1,0 +1,16 @@
+# Backend API
+fastapi
+uvicorn[standard]
+pydantic
+
+# forensic/database.py
+sqlalchemy
+
+# forensic/analyzers/header_analyzer.py + geolocation/geolocation.py
+requests
+
+# ai-model/inference.py - loading and running the trained phishing-detection
+# pipeline (scikit-learn is required even though inference.py doesn't import
+# it directly: joblib needs it installed to unpickle the saved Pipeline)
+joblib
+scikit-learn
